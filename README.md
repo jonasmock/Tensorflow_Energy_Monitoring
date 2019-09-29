@@ -112,7 +112,7 @@ Then the image is cut into several parts, just like it is when classifying.
 ![Cropped image](/readme_images/1569764410.png "Cropped image")
 ![Cropped image](/readme_images/1569764412.png "Cropped image")
 
-Then the trained model tries to recognize the number in each image. If the probability is more than 85%, the recognized image is moved to a folder of the specific category, just as it is when classifying. The new pictures can be used in the future for the independent training of the model.
+Then the trained model tries to recognize the number in each image. If the probability is more than 85%, the recognized image is moved to a folder of the specific category, just as it is when classifying. The new pictures can be used in the future for the autonomously training of the model.
 
 ![Prediction / log file](/readme_images/Bildschirmfoto%202019-09-29%20um%2015.48.46.png "Prediction / log file")
 
