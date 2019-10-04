@@ -147,8 +147,11 @@ def predict(path, newpath):
                 # Moves image from predicted digit to the specifiy category folder
                 shutil.move(arg, newArg)
             else:
-                # If the confidence is not high enough, the file will be deleted
-                os.remove(arg)
+                # Creates path to categoriy folder from predicted digit
+                newArg = str(newpath) + "/failed/" + str(img)
+                # Moves image to "failed" folder, those images have to be classified manually
+                shutil.move(arg, newArg)
+                
             
             # Write prediction to log file
             with open(logPath, "a") as log:
