@@ -1,6 +1,6 @@
-from Classify import Classify 
-from TrainModel import TrainModel
-from PredictService import PredictService 
+from classify import Classify 
+from trainModel import TrainModel
+from predictService import PredictService 
 
 
 

@@ -21,7 +21,7 @@ class PredictService:
 
     from influxdb import InfluxDBClient
     import pytz
-    from Classify import Classify 
+    from classify import Classify 
 
 
     dbUser = ""
