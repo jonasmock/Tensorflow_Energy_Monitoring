@@ -8,28 +8,20 @@ class Classify:
     import calendar
     import time
 
+    __slots__ = ['unprocessedImagePath', 'rootPath', 'logPath', 'cropArea']
 
-    # Path were the raw images are located
-    unprocessedImagePath = ""
-    # Parent folder, were the categorie folders are located
-    rootPath = ""
-    # Path to log file
-    logPath = ""
-    # Number of digits / categories 
-    numberOfCategories = 0
-    # Area where the focus lies
-    cropArea = ()
+    def __init__(self, **kwargs):
 
+        print("This is the constructor method of \""+type(self).__name__+"\" class.\n")
+        print("The following args are necessary: ", self.__slots__,"\n")
 
-    def __init__(self,unprocessedImagePath, rootPath, logPath, numberOfCategories, cropArea):
-
-        print("This is the constructor method of \""+type(self).__name__+"\" class.")
-        
-        self.unprocessedImagePath = unprocessedImagePath
-        self.rootPath = rootPath
-        self.logPath = logPath
-        self.numberOfCategories = numberOfCategories
-        self.cropArea = cropArea
+        for key, value in kwargs.items():
+            try:
+                setattr(self, key, value)
+                pass
+            except Exception as e:
+                print("Can't init object.\n")
+                raise Exception(e)
 
         print("Successfully initialized\n")
 
@@ -50,7 +42,7 @@ class Classify:
             return
 
         # Crops pic. Has to be defined individually.
-        currentPic = currentPic.crop(self.cropArea)
+        currentPic = currentPic.crop((int(value) for value in str(getattr(self, 'cropArea')).split(",")))
         uncutImage = currentPic
         # Get width and height from cropped pic
         w, h = currentPic.size
@@ -77,11 +69,11 @@ class Classify:
                 # Enter number of digit which is currently displayed
                 digit = input("Which number is displayed ?")
                 # Save the classified image to a specific categorie folder. Image is a png file with the current timestamp as name.
-                croppedPic.save(self.rootPath + str(digit) + "/" + str(self.calendar.timegm(self.time.gmtime())) + ".png")
+                croppedPic.save(getattr(self, 'rootPath') + str(digit) + "/" + str(self.calendar.timegm(self.time.gmtime())) + ".png")
             elif mode == "predict":
 
                 print("Predict mode")
-                croppedPic.save(self.rootPath + str(self.calendar.timegm(self.time.gmtime())) + ".png")
+                croppedPic.save(getattr(self, 'rootPath')  + str(self.calendar.timegm(self.time.gmtime())) + ".png")
                 self.time.sleep(2)
 
             # Expand width parameter to display the next digit in the cropped image.
@@ -99,17 +91,17 @@ class Classify:
         currentProcessingStatus = 1
 
         # loops through all files in raw image folder
-        for img in self.os.listdir(self.unprocessedImagePath):
+        for img in self.os.listdir(getattr(self,'unprocessedImagePath')):
     
             # Shows current status
-            print(str(currentProcessingStatus) + " images from " + str(len(self.os.listdir(self.unprocessedImagePath))) + " processed." )
+            print(str(currentProcessingStatus) + " images from " + str(len(self.os.listdir(getattr(self,'unprocessedImagePath')))) + " processed." )
             print("Current file: " + str(img))
             # Writes current file to log. If program is terminated, previous images can be deleted
-            log = open(self.logPath,'w')
+            log = open(getattr(self, 'logPath'),'w')
             log.write(img)
             log.close()
             # Creates path to file
-            arg = self.unprocessedImagePath + img
+            arg = getattr(self,'unprocessedImagePath') + img
             # Try to execute prepImage()
             try:
                 self.prepImage (arg, 5, "classify")
