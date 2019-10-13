@@ -8,7 +8,7 @@ class Classify:
     import calendar
     import time
 
-    __slots__ = ['unprocessedImagePath', 'rootPath', 'logPath', 'cropArea']
+    __slots__ = ['unprocessedImagePath', 'rootPath', 'logPath', 'cropArea','configPath']
 
     def __init__(self, **kwargs):
 

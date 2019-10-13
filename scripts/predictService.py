@@ -44,11 +44,12 @@ class PredictService:
     # Path where model file is located
     modelPath = ""
     img_size = ""
+    configPath = ""
 
 
 
 
-    def __init__(self, dbUser, dbPassword, dbHost, dbPort, dbMeasurement, dbHostTag, dbName, getImageUrl, predictedImagesPath, rootPath, logPath, modelPath, img_size):
+    def __init__(self, dbUser, dbPassword, dbHost, dbPort, dbMeasurement, dbHostTag, dbName, getImageUrl, predictedImagesPath, rootPath, logPath, modelPath, img_size, configPath):
 
         print("This is the constructor method of \""+type(self).__name__+"\" class.")
         
@@ -65,6 +66,7 @@ class PredictService:
         self.logPath = logPath
         self.modelPath = modelPath
         self.img_size = img_size
+        self.configPath = configPath
 
         print("Successfully initialized\n")
 
@@ -151,8 +153,16 @@ class PredictService:
     
         # Opens image from web request
         with self.Image.open(self.io.BytesIO(r.content)) as im:
+
+            args = {"pathToConfig":self.configPath,}
+            
+            init = GlobalServices(**args)
+
+            cfg = init.configToDict()
+
+
             # Passes image to prepImage() function
-            classify = self.Classify("",self.predictedImagesPath,"",10,(600, 200, 1450, 400))
+            classify = self.Classify(**dict(cfg["Classify"]))
             classify.prepImage(im, 5, "predict")      
     
         pass
