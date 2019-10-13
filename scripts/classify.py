@@ -82,6 +82,7 @@ class Classify:
 
                 print("Predict mode")
                 croppedPic.save(self.rootPath + str(self.calendar.timegm(self.time.gmtime())) + ".png")
+                time.sleep(2)
 
             # Expand width parameter to display the next digit in the cropped image.
             a1 = a1 + w / numberOfCuts
