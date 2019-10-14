@@ -11,32 +11,21 @@ class TrainModel:
     # To randomize training data
     import random
 
-    # Array for training data
-    training_data = []
-    # Parent folder, were the categorie folders are located
-    rootPath = ""
-    # Defines the categories
-    categories = []
-    # Size in which images will be stored and processed
-    img_size = 0
-    # Max amount of training data per category
-    dataAmount = 0
-    # Path to save model file
-    modelOutputPath = ""
-    # Defines the number of training periods
-    epochs = 0
+    __slots__ = ['rootPath', 'categories', 'img_size', 'dataAmount', 'modelOutputPath', 'epochs']
 
-    def __init__(self, rootPath, categories, img_size, dataAmount, epochs, modelOutputPath):
+    def __init__(self, **kwargs):
 
         print("This is the constructor method of \""+type(self).__name__+"\" class.")
+        print("The following args are necessary: ", self.__slots__,"")
 
-        self.rootPath = rootPath
-        self.categories = categories
-        self.img_size = img_size
-        self.dataAmount = dataAmount
-        self.epochs = epochs
-        self.modelOutputPath = modelOutputPath
-        
+        for key, value in kwargs.items():
+            try:
+                setattr(self, key, value)
+                pass
+            except Exception as e:
+                print("Can't init object.\n")
+                raise Exception(e)
+
         print("Successfully initialized\n")
 
         pass
@@ -46,25 +35,25 @@ class TrainModel:
     def createTrainingData(self):
     
         # Loop through categories   
-        for categorie in self.categories:
+        for categorie in [str(getattr(self, 'categories')).split(",")]:
 
             # Path to the categorie folder
-            categoriePath = self.os.path.join(self.rootPath, categorie)
+            categoriePath = self.os.path.join(getattr(self, 'rootPath'), categorie)
             # Translates categories to digits. Model can't work with strings. (Index 0 = Categorie 1. In this case categorie 1 is the digit 0)
-            categorieIndex = self.categories.index(categorie)
+            categorieIndex = [str(getattr(self, 'categories')).split(",")].index(categorie)
         
             try:
                 # Loops through the images in categorie folder
                 for idx, img in enumerate(self.os.listdir(categoriePath)):
             
                     # Breaks loop if max amount of training images in this categoriy is reached
-                    if idx == self.dataAmount:
+                    if idx == int(getattr(self, 'dataAmount')):
                         break
             
                     # Try to read the current image in grayscale, resize it to the defined size and append it to the training data array / label array.
                     try:
                         img_array = self.cv2.imread(self.os.path.join(categoriePath,img), self.cv2.IMREAD_GRAYSCALE)
-                        resized_array = self.cv2.resize(img_array, (self.img_size, self.img_size))
+                        resized_array = self.cv2.resize(img_array, (int(getattr(self, 'img_size')), int(getattr(self, 'img_size'))))
                         self.training_data.append([resized_array, categorieIndex])
                     except Exception as e:
 
@@ -99,7 +88,7 @@ class TrainModel:
             labelArray.append(label)
     
         # Create numpy array and reshape array size
-        featureArray = self.np.array(featureArray).reshape(-1, self.img_size, self.img_size)
+        featureArray = self.np.array(featureArray).reshape(-1, int(getattr(self, 'img_size')), int(getattr(self, 'img_size')))
         labelArray = self.np.array(labelArray)
         # Normalize values (values < 1)
         featureArray = featureArray / 255
@@ -114,7 +103,7 @@ class TrainModel:
         # Defines model properties
         model = self.tf.keras.Sequential ([
     
-            self.tf.keras.layers.Flatten(input_shape=(self.img_size, self.img_size)),
+            self.tf.keras.layers.Flatten(input_shape=(int(getattr(self, 'img_size')), int(getattr(self, 'img_size')))),
             self.tf.keras.layers.Dense(128, activation=self.tf.nn.relu),
             self.tf.keras.layers.Dense(10, activation=self.tf.nn.softmax)
     
@@ -129,9 +118,9 @@ class TrainModel:
         features, labels = self.createTrainingData()
 
         # Train the model
-        model.fit(features, labels, epochs = self.epochs)
+        model.fit(features, labels, epochs = int(getattr(self, 'epochs')))
         # Save the model
-        model.save(self.modelOutputPath)
+        model.save(getattr(self, 'modelOutputPath'))
     
         pass
 

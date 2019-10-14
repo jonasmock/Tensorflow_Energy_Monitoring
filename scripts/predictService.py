@@ -3,12 +3,11 @@ class PredictService:
     # Load, compile and predict model
     import tensorflow as tf
     # Process and transform images
-    from skimage import transform,io
+    from skimage import transform
     # Open images
     import imageio
     import io
     # Used for timestamps
-    import calendar
     import time
     from datetime import datetime
     # Get image from URL
@@ -18,9 +17,10 @@ class PredictService:
     # For interacton with the filesystem
     import os
     import shutil
-    from globalServices import GlobalServices
     from influxdb import InfluxDBClient
     import pytz
+
+    from globalServices import GlobalServices
     from classify import Classify 
 
 
@@ -29,8 +29,8 @@ class PredictService:
 
     def __init__(self, **kwargs):
 
-        print("This is the constructor method of \""+type(self).__name__+"\" class.\n")
-        print("The following args are necessary: ", self.__slots__,"\n")
+        print("This is the constructor method of \""+type(self).__name__+"\" class.")
+        print("The following args are necessary: ", self.__slots__,"")
 
         for key, value in kwargs.items():
             try:
@@ -139,6 +139,7 @@ class PredictService:
     
         pass
 
+
     # Predicts digit and moves the image to the specific category folder. In the future the program should automatically train the model with the new data from the predictions
     def predict(self):
     
@@ -214,5 +215,6 @@ class PredictService:
             kwh = int(tmp)
             self.dbconnect(kwh)
         pass
+
 
     pass
