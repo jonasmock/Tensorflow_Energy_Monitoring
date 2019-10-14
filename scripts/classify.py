@@ -8,6 +8,8 @@ class Classify:
     import calendar
     import time
 
+    from globalServices import GlobalServices
+
     __slots__ = ['unprocessedImagePath', 'rootPath', 'logPath', 'cropArea','configPath']
 
     def __init__(self, **kwargs):
@@ -37,6 +39,9 @@ class Classify:
         elif mode =="predict":
             # Open the raw picture 
             currentPic = pathToImage
+            args = {"pathToConfig":getattr(self, 'configPath'),}         
+            init = self.GlobalServices(**args)
+            cfg = init.configToDict()
         else:
             print("Unsupported mode!")
             return
@@ -73,7 +78,8 @@ class Classify:
             elif mode == "predict":
 
                 print("Predict mode")
-                croppedPic.save(getattr(self, 'rootPath')  + str(self.calendar.timegm(self.time.gmtime())) + ".png")
+
+                croppedPic.save(cfg['Predict']['predictedImagesPath']  + str(self.calendar.timegm(self.time.gmtime())) + ".png")
                 self.time.sleep(2)
 
             # Expand width parameter to display the next digit in the cropped image.
