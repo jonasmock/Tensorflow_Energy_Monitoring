@@ -11,6 +11,8 @@ class TrainModel:
     # To randomize training data
     import random
 
+    training_data = []
+
     __slots__ = ['rootPath', 'categories', 'img_size', 'dataAmount', 'modelOutputPath', 'epochs']
 
     def __init__(self, **kwargs):
@@ -35,12 +37,13 @@ class TrainModel:
     def createTrainingData(self):
     
         # Loop through categories   
-        for categorie in [str(getattr(self, 'categories')).split(",")]:
+        for categorie in str(getattr(self, 'categories')).split(","):
 
             # Path to the categorie folder
+            print()
             categoriePath = self.os.path.join(getattr(self, 'rootPath'), categorie)
             # Translates categories to digits. Model can't work with strings. (Index 0 = Categorie 1. In this case categorie 1 is the digit 0)
-            categorieIndex = [str(getattr(self, 'categories')).split(",")].index(categorie)
+            categorieIndex = str(getattr(self, 'categories')).split(",").index(categorie)
         
             try:
                 # Loops through the images in categorie folder

@@ -21,7 +21,7 @@ classify = Classify(**dict(cfg["Classify"]))
 #classify.classifyMultipleImages()
 
 train = TrainModel(**dict(cfg["Train"]))
-#train.createModel()
+train.createModel()
 
 predict = PredictService(**dict(cfg["Predict"]))
 #predict.downloadImage()
