@@ -6,8 +6,8 @@ class GlobalServices:
 
     def __init__(self, **kwargs):
 
-        print("This is the constructor method of \""+type(self).__name__+"\" class.\n")
-        print("The following args are necessary: ", self.__slots__,"\n")
+        print("This is the constructor method of \""+type(self).__name__+"\" class.")
+        print("The following args are necessary: ", self.__slots__,"")
 
         for key, value in kwargs.items():
             try:

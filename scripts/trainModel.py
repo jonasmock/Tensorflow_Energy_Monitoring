@@ -60,7 +60,7 @@ class TrainModel:
                         self.training_data.append([resized_array, categorieIndex])
                     except Exception as e:
 
-                        print("Can't process image.\n")
+                        print("Can't process image.",self.os.path.join(categoriePath,img,"\n")
                         print(e)
 
                         pass
