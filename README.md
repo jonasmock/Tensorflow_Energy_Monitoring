@@ -65,8 +65,9 @@ static esp_err_t capture_handler(httpd_req_t *req){
 
 The microprocessor is connected to the IoT WiFi and firewall rules to access the web server from the Ubuntu server are in place.
 
-
 ## How it works
+
+# Currently not up to date, changed code to oop
 
 #### 1. Preparation
 

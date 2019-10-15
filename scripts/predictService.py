@@ -1,25 +1,17 @@
 class PredictService:
 
-    # Load, compile and predict model
     import tensorflow as tf
-    # Process and transform images
     from skimage import transform
-    # Open images
     import imageio
     import io
-    # Used for timestamps
     import time
     from datetime import datetime
-    # Get image from URL
     from PIL import Image 
-    # Web request 
     import requests  
-    # For interacton with the filesystem
     import os
     import shutil
     from influxdb import InfluxDBClient
     import pytz
-
     from globalServices import GlobalServices
     from classify import Classify 
 
@@ -87,6 +79,7 @@ class PredictService:
 
             #print("Delete database: " + getattr(self, 'dbName'))
             #client.drop_database(getattr(self, 'dbName'))
+
             pass
 
         except Exception as e:
@@ -103,10 +96,8 @@ class PredictService:
     # Loads and compiles the model
     def loadModel(self):
     
-        # Loads model with Keras
         imported_model = self.tf.keras.models.load_model(getattr(self, 'modelPath'), compile=False)
     
-        # Compiles model because Tensorflow optimizers can't be compiled by Keras while loading the model
         imported_model.compile(optimizer=self.tf.train.AdamOptimizer(),
                 loss='sparse_categorical_crossentropy',
                 metrics=['accuracy'])
@@ -117,9 +108,7 @@ class PredictService:
     # Downloads and processes image from ESP32 CAM webserver
     def downloadImage(self):
     
-        # Creates request from url parameter
         r = self.requests.get(getattr(self, 'getImageUrl'), timeout=4.0)
-        # Displays request errors
         if r.status_code != self.requests.codes.ok:
             assert False, 'Status code error: {}.'.format(r.status_code)
     
@@ -132,8 +121,7 @@ class PredictService:
 
             cfg = init.configToDict()
 
-
-            # Passes image to prepImage() function
+            # Passes image to prepImage() function 
             classify = self.Classify(**dict(cfg["Classify"]))
             classify.prepImage(im, 5, "predict")      
     
@@ -143,28 +131,22 @@ class PredictService:
     # Predicts digit and moves the image to the specific category folder. In the future the program should automatically train the model with the new data from the predictions
     def predict(self):
     
-        # Variable for status information
         currentProcessingStatus = 0
-        # Get current time
         now = self.datetime.now()
-        # Format time day-month-year-hour-minute-second
         now = now.strftime("%d-%m-%Y-%H-%M-%S")
-        # Write timestamp to log file
+
         with open(getattr(self, 'logPath'), "a") as log:
             log.write("Timestamp: " + str(now)+ "\n")
             log.close()
     
         currentPrediction = []
 
-        # Loops through temporarily saved images in predicct folder
         for img in sorted(self.os.listdir(getattr(self, 'predictedImagesPath'))):
     
-            # Shows current processing status
             print(str(currentProcessingStatus) + " images from " + str(len(self.os.listdir(getattr(self, 'predictedImagesPath')))) + " processed." )
-            # Creates path to current image
+
             pathToPredictedImage = getattr(self, 'predictedImagesPath') + img
         
-            # Catch errors while predicting digits
             try:
             
                 # Read current image
@@ -179,37 +161,41 @@ class PredictService:
                 imported_model = self.loadModel()
                 # Saves predictions
                 predictions = imported_model.predict(predict_array)
-                # Shows current prediction
                 print("Prediction: " + str(predictions[0].argmax()) + " Confidence: " + str(predictions[0].max()))
             
                 # Checks the confidence of the prediction
                 if predictions[0].max() > 0.95:
-                    # Creates path to categoriy folder from predicted digit
+
                     pathToPredictedCategorie = str(getattr(self, 'rootPath')) + str(predictions[0].argmax()) + "/" + str(img)
-                    # Moves image from predicted digit to the specifiy category folder
+
                     self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
                     currentPrediction.append(predictions[0].argmax())
                 
                 else:
-                    # Creates path to categoriy folder from predicted digit
-                    pathToPredictedCategorie = str(getattr(self, 'rootPath')) + "failed/" + str(img)
+
                     # Moves image to "failed" folder, those images have to be classified manually
+                    pathToPredictedCategorie = str(getattr(self, 'rootPath')) + "failed/" + str(img)
                     self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
+
+                    pass
             
-                # Write prediction to log file
                 with open(getattr(self, 'logPath'), "a") as log:
                     log.write("Prediction: " +  str(predictions[0].argmax()) + " Confidence:  " + str(predictions[0].max()) +"\n")
                     log.close()
+
             except Exception as e:
+
                 print(e)
+
                 pass
-            # Add 1 to status variable     
+ 
             currentProcessingStatus += 1
-        # Marks end of prediction in log file    
+ 
         with open(getattr(self, 'logPath'), "a") as log:
             log.write("###############################################" + "\n")
             log.close()
         
+        # If all five predictions confidence is > 95, the values are stored in InfluxDB.
         if len(currentPrediction) == 5:
             tmp = str(currentPrediction[0]) + str(currentPrediction[1]) + str(currentPrediction[2]) + str(currentPrediction[3]) + str(currentPrediction[4]) 
             kwh = int(tmp)

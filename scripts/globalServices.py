@@ -22,6 +22,7 @@ class GlobalServices:
         pass
 
 
+    # Reads config and returns value of a key in a specific section
     def readConfig(self, configSection, configKey):
         
         try:
@@ -43,6 +44,7 @@ class GlobalServices:
         return config.get(configSection, configKey)
 
 
+    # Reads config and returns it as dict
     def configToDict(self):
         
         try:
@@ -64,6 +66,7 @@ class GlobalServices:
         return config._sections
 
 
+    # Write value for specific key in a section to config file
     def writeConfig(self, configSection, configKey, keyValue):
 
         try:
@@ -88,6 +91,7 @@ class GlobalServices:
             pass
 
         pass
+    
 
     pass
 
