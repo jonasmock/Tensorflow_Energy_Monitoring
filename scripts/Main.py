@@ -11,7 +11,7 @@ init = GlobalServices(**args)
 
 cfg = init.configToDict()
 
-print(dict(cfg["Classify"]))
+print(int(init.readConfig("Global","lastPrediction")))
 
 #init.writeConfig("scripts/config.ini", "DEFAULT", "Property", "Newvalues")
 
@@ -23,7 +23,7 @@ print(dict(cfg["Classify"]))
 #train = TrainModel(**dict(cfg["Train"]))
 #train.createModel()
 
-#predict = PredictService(**dict(cfg["Predict"]))
+predict = PredictService(**dict(cfg["Predict"]))
 #predict.downloadImage()
 #predict.predict()
 

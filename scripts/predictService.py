@@ -116,13 +116,9 @@ class PredictService:
         with self.Image.open(self.io.BytesIO(r.content)) as im:
 
             args = {"pathToConfig":getattr(self, 'configPath'),}
-            
-            init = self.GlobalServices(**args)
-
-            cfg = init.configToDict()
 
             # Passes image to prepImage() function 
-            classify = self.Classify(**dict(cfg["Classify"]))
+            classify = self.Classify(**dict(self.GlobalServices(**args).configToDict()["Classify"]))
             classify.prepImage(im, 5, "predict")      
     
         pass
@@ -197,9 +193,21 @@ class PredictService:
         
         # If all five predictions confidence is > 95, the values are stored in InfluxDB.
         if len(currentPrediction) == 5:
+
+            args = {"pathToConfig":getattr(self, 'configPath'),}
             tmp = str(currentPrediction[0]) + str(currentPrediction[1]) + str(currentPrediction[2]) + str(currentPrediction[3]) + str(currentPrediction[4]) 
             kwh = int(tmp)
-            self.dbconnect(kwh)
+
+            if kwh < int(self.GlobalServices(args).readConfig("Global","lastPrediction")):
+
+                print("Conflict with last prediction")
+                return
+
+            else:
+
+                self.GlobalServices(args).writeConfig("Global", "lastPrediction", kwh)
+                self.dbconnect(kwh)
+
         pass
 
 
