@@ -71,11 +71,10 @@ class GlobalServices:
 
         try:
             
-            cfgfile = open(getattr(self,"pathToConfig"),'w')
             config = self.configparser.RawConfigParser()
             config.optionxform = str 
             config.read(getattr(self,"pathToConfig"))
-
+            cfgfile = open(getattr(self,"pathToConfig"),'w')
             config.set(configSection, configKey, keyValue)
             config.write(cfgfile)
             cfgfile.close()
