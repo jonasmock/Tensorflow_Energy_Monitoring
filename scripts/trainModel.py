@@ -45,10 +45,11 @@ class TrainModel:
             
                     # Try to read the current image in grayscale, resize it to the defined size and append it to the training data array / label array.
                     try:
-
-                        img_array = self.cv2.imread(self.os.path.join(categoriePath,img), self.cv2.IMREAD_GRAYSCALE)
-                        resized_array = self.cv2.resize(img_array, (int(getattr(self, 'img_size')), int(getattr(self, 'img_size'))))
-                        self.training_data.append([resized_array, categorieIndex])
+                        
+                        if str(img)[-3:] == "png)":
+                            img_array = self.cv2.imread(self.os.path.join(categoriePath,img), self.cv2.IMREAD_GRAYSCALE)
+                            resized_array = self.cv2.resize(img_array, (int(getattr(self, 'img_size')), int(getattr(self, 'img_size'))))
+                            self.training_data.append([resized_array, categorieIndex])
 
                     except Exception as e:
 
