@@ -23,44 +23,11 @@ I decided to recognize the numbers via "artificial intelligence". Due to my low 
 The ESP32 CAM microprocessor, was basically flashed with the template of the camera web server from Espressif examples. Only in the file *app_httpd.cpp* changes were made in the *capture* function to switch on the LED (pin 4) before each image.
 
 ```cpp
-static esp_err_t capture_handler(httpd_req_t *req){
-    camera_fb_t * fb = NULL;
-    esp_err_t res = ESP_OK;
-    int64_t fr_start = esp_timer_get_time();
-    pinMode(4,OUTPUT);
-    digitalWrite(4,HIGH);
-    fb = esp_camera_fb_get();
-    if (!fb) {
-        Serial.println("Camera capture failed");
-        httpd_resp_send_500(req);
-        return ESP_FAIL;
-    }
 
-    httpd_resp_set_type(req, "image/jpeg");
-    httpd_resp_set_hdr(req, "Content-Disposition", "inline; filename=capture.jpg");
+    pinMode(4,OUTPUT); // Defines pin 4 as output pin
+    digitalWrite(4,HIGH); // turns LED on
+    digitalWrite(4,LOW); // turns LED off
 
-    size_t out_len, out_width, out_height;
-    uint8_t * out_buf;
-    bool s;
-    bool detected = false;
-    int face_id = 0;
-    if(!detection_enabled || fb->width > 400){
-        size_t fb_len = 0;
-        if(fb->format == PIXFORMAT_JPEG){
-            fb_len = fb->len;
-            res = httpd_resp_send(req, (const char *)fb->buf, fb->len);
-        } else {
-            jpg_chunking_t jchunk = {req, 0};
-            res = frame2jpg_cb(fb, 80, jpg_encode_stream, &jchunk)?ESP_OK:ESP_FAIL;
-            httpd_resp_send_chunk(req, NULL, 0);
-            fb_len = jchunk.len;
-        }
-        esp_camera_fb_return(fb);
-        int64_t fr_end = esp_timer_get_time();
-        Serial.printf("JPG: %uB %ums\n", (uint32_t)(fb_len), (uint32_t)((fr_end - fr_start)/1000));
-        digitalWrite(4,LOW);
-        return res;
-    }
 ```
 
 The microprocessor is connected to the IoT WiFi and firewall rules to access the web server from the Ubuntu server are in place.
