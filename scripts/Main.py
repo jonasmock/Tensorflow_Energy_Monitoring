@@ -29,7 +29,7 @@ class Main:
 
                         pass
 
-                except Exception:
+                except Exception as e:
 
                         print("\n\n#####Welcome#####\n")
 
@@ -37,7 +37,7 @@ class Main:
 
                         while self.os.path.isfile(pathToConfig) != True:
 
-                                pathToConfig = input("ERROR path is not vaild.\nPlease enter path to config.ini file:")
+                                pathToConfig = input("ERROR path is not vaild.\nPlease enter path to config.ini file:\n")
                                 if pathToConfig[-3:] != "ini":
                                         pathToConfig = ""
 
@@ -61,10 +61,11 @@ class Main:
 
                         while not mode:
 
-                                mode = input("Enter mode. \'classify\' , \'train\' or \'predict\'")
-                                if mode == "classify" or mode == "train" or mode == "predict":
+                                mode = input("Enter mode. \'prepare\' , \'classify\' , \'train\' or \'predict\'\n")
+                                if mode == "classify" or mode == "train" or mode == "predict" or mode == "prepare":
                                         print("Correct mode chosen.")
                                 else:
+                                        print("Wrong mode!")
                                         mode = ""
                                         
                                         
@@ -89,6 +90,13 @@ class Main:
                         predict.downloadImage()
                         predict.predict()
 
+                elif mode == "prepare":
+
+                        args = {"pathToConfig":configDict["Prepare"]["configPath"],}
+
+                        self.GlobalServices(**args).prepareFolders(input("Enter root folder name. (Contains default folder structure.)\n"))
+
+                        pass       
 
                 pass
 
@@ -96,9 +104,16 @@ class Main:
 
                 args = {"pathToConfig":pathToConfig,}
 
-                init = self.GlobalServices(**args)
+                cfg = self.GlobalServices(**args)
 
-                return init.configToDict()
+                for section in dict(cfg.configToDict()):
+                        
+                        try:
+                                cfg.writeConfig(section,"configPath",pathToConfig)
+                        except Exception:
+                                pass
+
+                return cfg.configToDict()
 
 
         pass

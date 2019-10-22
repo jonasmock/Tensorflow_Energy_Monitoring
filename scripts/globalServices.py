@@ -1,6 +1,7 @@
 class GlobalServices:
 
     import configparser
+    import os
 
     __slots__ = ['pathToConfig']
 
@@ -90,7 +91,62 @@ class GlobalServices:
             pass
 
         pass
-    
+
+
+    # Create default folder structure
+    def prepareFolders(self, folderName):
+
+        rootFolder = self.readConfig("Prepare", "pathToFolders")
+
+        try:
+
+            self.os.makedirs(rootFolder+folderName)
+
+        except FileExistsError:
+
+            print("Folder already exists")
+
+        try:
+
+            self.os.makedirs(rootFolder+folderName+"/predict")
+
+        except FileExistsError:
+
+            print("Folder already exists")
+
+        try:
+
+            self.os.makedirs(rootFolder+folderName+"/predict/failed")
+
+        except FileExistsError:
+
+            print("Folder already exists")
+
+        try:
+
+            self.os.makedirs(rootFolder+folderName+"/predict/predict")
+
+        except FileExistsError:
+
+            print("Folder already exists")
+
+        for n in range(10):
+
+            try:
+
+                self.os.makedirs(rootFolder+folderName+"/"+str(n))
+
+            except FileExistsError:
+
+                print("Folder already exists")
+
+            try:
+
+                self.os.makedirs(rootFolder+folderName+"/predict/"+str(n))
+
+            except FileExistsError:
+
+                print("Folder already exists")
 
     pass
 
