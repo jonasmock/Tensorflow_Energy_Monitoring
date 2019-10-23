@@ -116,6 +116,22 @@ class GlobalServices:
 
         try:
 
+            self.os.makedirs(rootFolder+folderName+"/predict/model")
+
+        except FileExistsError:
+
+            print("Folder already exists")
+
+        try:
+
+            self.os.makedirs(rootFolder+folderName+"/predict/raw")
+
+        except FileExistsError:
+
+            print("Folder already exists")
+
+        try:
+
             self.os.makedirs(rootFolder+folderName+"/predict/failed")
 
         except FileExistsError:
@@ -124,7 +140,7 @@ class GlobalServices:
 
         try:
 
-            self.os.makedirs(rootFolder+folderName+"/predict/predict")
+            self.os.makedirs(rootFolder+folderName+"/predict/predicted")
 
         except FileExistsError:
 
@@ -147,6 +163,23 @@ class GlobalServices:
             except FileExistsError:
 
                 print("Folder already exists")
+
+
+        if input("Would you like to update paths in config with recently created folder structure ? y/[n]\n") == "y":
+                                       
+            try:
+                    self.writeConfig("Train","rootPath",rootFolder+folderName+"/")
+                    self.writeConfig("Train","modelOutputPath",rootFolder+folderName+"/predict/model/energy.model")
+                    self.writeConfig("Classify","unprocessedImagePath",rootFolder+folderName+"/predict/raw/")
+                    self.writeConfig("Classify","rootPath",rootFolder+folderName+"/predict/")
+                    self.writeConfig("Classify","logPath",rootFolder+folderName+"/log.txt")
+                    self.writeConfig("Predict","predictedImagesPath",rootFolder+folderName+"/predict/predicted/")
+                    self.writeConfig("Predict","rootPath",rootFolder+folderName+"/predict/")
+                    self.writeConfig("Predict","logPath",rootFolder+folderName+"/log.txt")
+                    self.writeConfig("Predict","modelPath",rootFolder+folderName+"/predict/model/energy.model")
+
+            except Exception:
+                    pass
 
     pass
 
