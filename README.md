@@ -34,39 +34,55 @@ The microprocessor is connected to the IoT WiFi and firewall rules to access the
 
 ## How it works
 
-# Currently not up to date, changed code to oop
-
 #### 1. Preparation
 
 Install **[Tensorflow](https://www.tensorflow.org/ "Tensorflow")** and **[Python3.7](https://www.anaconda.com/ "Python3.7")**. 
 I used **[Anaconda](https://www.anaconda.com/ "Anaconda")** virtual environment.
 
-Afterwards a folder structure must be created. 
+Clone repo and in the configuration file in the *Prepare* section add the path where the default folder structure should be created. Afterwards run **Main.py** and enter the path to **config.ini**.
 
-![Folder structure](/readme_images/folders.PNG "Folder structure")
+Enter *prepare* to select preparation mode. 
+
+Enter the root folder name for the default folder structure.
+
+Enter *y* to update paths in **config.ini**. They'll point to the recently created folders.
+
+Now you have to enter the few missing parameters in **config.ini** manually.
+
+This process is only necesarry if you want to create a new folder structure or if you want to update all paths at once in the config. To run predictions as a service for example as cronjob, its possible to start **Main*.py** with parameters. Four modes are available: *prepare*, *classify*, *train*, *predict*
+
+```
+python Main.py [pathToConfig] [mode]
+```
 
 #### 2. Classification and training
 
-Edit necessary paths, urls and crop parameters in **classify.py**. Install additional Python-Modules if needed.
+Run **Main.py** with desired parameter. Additional Python modules may need to be installed.
 
-*python3 classify.py*
+```
+python Main.py [pathToConfig] classify
+```
 
 Now the raw image will be cropped. Afterwards the cropped image will be divided into multiple files. Each time the program shows the picture and asks which digit is displayed. After entering the answer, the image will be moved to the specifiy category / digit folder.
 
 After some pictures have been classified, preferably a few hundred, the training can be started. 
 
-Edit necessary paths, urls and crop parameters in **trainModel.py**. Install additional Python-Modules if needed.
+Run **Main.py** with desired parameter. Additional Python modules may need to be installed.
 
-*python3 trainModel.py*
+```
+python Main.py [pathToConfig] train
+```
 
 Now the previously classified images are stored in a trained model using Tenserflow / Keras.
 
 
 #### 3. Recognition and visualization
 
-Edit necessary paths, urls and crop parameters in **predictService.py**. Install additional Python-Modules if needed.
+Run **Main.py** with desired parameter. Additional Python modules may need to be installed.
 
-*python3 predictService.py*
+```
+python Main.py [pathToConfig] predict
+```
 
 The program gets a current image from the web server.
 
@@ -80,12 +96,16 @@ Then the image is cut into several parts, just like it is when classifying.
 ![Cropped image](/readme_images/1569764410.png "Cropped image")
 ![Cropped image](/readme_images/1569764412.png "Cropped image")
 
-Then the trained model tries to recognize the number in each image. If the probability is more than 85%, the recognized image is moved to a folder of the specific category, just as it is when classifying. The new pictures can be used in the future for the autonomously training of the model.
+The trained model tries to recognize the number in each image. If the probability is more than 95%, the recognized image is moved to a folder of the specific category, just as it is when classifying. The new pictures can be used in the future for the autonomously training of the model. 
 
 ![Prediction / log file](/readme_images/Bildschirmfoto%202019-09-29%20um%2015.48.46.png "Prediction / log file")
+
+If the probability is more than 95% and the predicted value is higher or equal than the last electricity meter value, it's saved to an InfluxDB database. The predicted values and some additional information like the the maximum electricity meter value per day according to the contract are combined in a Grafana dashboard. The red points display the maximum electricity meter value per day according to the contract and the green graph shows the current value.
+
 ![Grafana](/readme_images/grafana.png "Grafana")
 
 ## Coming soon
 
 - Train model by itself with new detected images
+- Check electricity meter via Telegram bot
 - Grafana alerts
