@@ -49,7 +49,7 @@ Enter *y* to update paths in **config.ini**. They'll point to the recently creat
 
 Now you have to enter the few missing parameters in **config.ini** manually.
 
-This process is only necesarry if you want to create a new folder structure or if you want to update all paths at once in the config. To run predictions as a service for example as cronjob, its possible to start **Main*.py** with parameters. Four modes are available: *prepare*, *classify*, *train*, *predict*
+This process is only necesarry if you want to create a new folder structure or if you want to update all paths at once in the config. To run predictions as a service for example as cronjob, its possible to start **Main.py** with parameters. Four modes are available: *prepare*, *classify*, *train*, *predict*
 
 ```
 python Main.py [pathToConfig] [mode]
