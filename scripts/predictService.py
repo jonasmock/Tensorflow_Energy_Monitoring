@@ -170,7 +170,7 @@ class PredictService:
                 else:
 
                     # Moves image to "failed" folder, those images have to be classified manually
-                    pathToPredictedCategorie = str(getattr(self, 'rootPath')) + "failed/" + str(img)
+                    pathToPredictedCategorie = str(getattr(self, 'rootPath')) + "failed/" + str(predictions[0].argmax()) + "/" + str(img)
                     self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
 
                     pass
