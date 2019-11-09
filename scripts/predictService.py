@@ -198,7 +198,7 @@ class PredictService:
             tmp = str(currentPrediction[0]) + str(currentPrediction[1]) + str(currentPrediction[2]) + str(currentPrediction[3]) + str(currentPrediction[4]) 
             kwh = int(tmp)
 
-            if kwh < int(self.GlobalServices(**args).readConfig("Global","lastPrediction")):
+            if kwh < int(self.GlobalServices(**args).readConfig("Global","lastPrediction")) or kwh > int(self.GlobalServices(**args).readConfig("Global","lastPrediction"))+5:
 
                 print("Conflict with last prediction")
                 return
