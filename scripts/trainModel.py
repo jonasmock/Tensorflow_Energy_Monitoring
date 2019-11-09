@@ -8,7 +8,7 @@ class TrainModel:
 
     training_data = []
 
-    __slots__ = ['rootPath', 'categories', 'img_size', 'dataAmount', 'modelOutputPath', 'epochs']
+    __slots__ = ['rootPath', 'categories', 'img_size', 'dataAmount', 'modelOutputPath', 'epochs', 'pathToConfig']
 
     def __init__(self, **kwargs):
 
