@@ -96,7 +96,8 @@ class TrainModel:
     
             self.tf.keras.layers.Flatten(input_shape=(int(getattr(self, 'img_size')), int(getattr(self, 'img_size')))),
             self.tf.keras.layers.Dense(128, activation=self.tf.nn.relu),
-            self.tf.keras.layers.Dense(10, activation=self.tf.nn.softmax)
+            self.tf.keras.layers.Dense(128, activation=self.tf.nn.relu),
+             self.tf.keras.layers.Dense(10, activation=self.tf.nn.softmax)
     
         ])
     
