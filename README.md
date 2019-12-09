@@ -54,6 +54,11 @@ conda create --name myNewEnv --file [Path to /setup/conda_requirements.txt]
 ```
 conda activate myNewEnv
 ```
+Unfortunately I didn't find a package for InfluxDB in Anaconda, install package via pip inside the Anaconda env.
+
+```
+pip install influxdb
+```
 
 In **config.ini** file in the *Prepare* section add the path where the default folder structure should be created. Afterwards run **Main.py** and enter the path to **config.ini**.
 
