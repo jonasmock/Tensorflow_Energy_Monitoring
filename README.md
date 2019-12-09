@@ -36,10 +36,22 @@ The microprocessor is connected to the IoT WiFi and firewall rules to access the
 
 #### 1. Preparation
 
-Install **[Tensorflow](https://www.tensorflow.org/ "Tensorflow")** and **[Python3.7](https://www.anaconda.com/ "Python3.7")**. 
-I used **[Anaconda](https://www.anaconda.com/ "Anaconda")** virtual environment.
+Based on **[Tensorflow](https://www.tensorflow.org/ "Tensorflow")**, **[Python3.7](https://www.anaconda.com/ "Python3.7")** and **[Anaconda](https://www.anaconda.com/ "Anaconda")** virtual environment.
 
-Clone repo and in the configuration file in the *Prepare* section add the path where the default folder structure should be created. Afterwards run **Main.py** and enter the path to **config.ini**.
+1. Clone repo.
+2. Install **[Anaconda](https://www.anaconda.com/ "Anaconda")**.
+3. Create new virtual enviroment with prepared **conda_requirements.txt** from setup folder.
+
+```
+conda create --name myNewEnv --file [Path to /setup/conda_requirements.txt]
+```
+4. Every time you want to use the program, first activate the Anaconda enviroment.
+
+```
+conda activate myNewEnv
+```
+
+In **config.ini** file in the *Prepare* section add the path where the default folder structure should be created. Afterwards run **Main.py** and enter the path to **config.ini**.
 
 Enter *prepare* to select preparation mode. 
 
