@@ -49,7 +49,7 @@ Based on **[Tensorflow](https://www.tensorflow.org/ "Tensorflow")**, **[Python3.
 ```
 conda create --name myNewEnv --file [Path to /setup/conda_requirements.txt]
 ```
-4. Every time you want to use the program, first activate the Anaconda enviroment.
+6. Every time you want to use the program, first activate the Anaconda enviroment.
 
 ```
 conda activate myNewEnv
