@@ -44,7 +44,7 @@ Based on **[Tensorflow](https://www.tensorflow.org/ "Tensorflow")**, **[Python3.
 
 **[NVIDIA GPU requirements](https://www.tensorflow.org/install/gpu)**
 
-4. Create new virtual enviroment with prepared **conda_requirements.txt** from setup folder. Currently the Anaconda requirements are only adjusted to Windows 10 + NVIDIA GPU. If you want to use a Linux distribution or train an predict with **[CPU](https://www.tensorflow.org/install)** you have to install additionally packages manually.
+4. Create new virtual enviroment with prepared **conda_requirements.txt** from setup folder. Currently the Anaconda requirements are only adjusted to Windows 10 + NVIDIA GPU. If you want to use a Linux distribution or train and predict with **[CPU](https://www.tensorflow.org/install)** you have to install additionally packages manually.
 
 ```
 conda create --name myNewEnv --file [Path to /setup/conda_requirements.txt]
