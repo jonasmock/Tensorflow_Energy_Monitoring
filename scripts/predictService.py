@@ -12,6 +12,7 @@ class PredictService:
     import shutil
     from influxdb import InfluxDBClient
     import pytz
+    import numpy as np
     from globalServices import GlobalServices
     from classify import Classify 
 
@@ -149,14 +150,11 @@ class PredictService:
                 img_array = self.imageio.imread(pathToPredictedImage, as_gray=True)
                 img_array = self.transform.resize(img_array,(int(getattr(self, 'img_size')), int(getattr(self, 'img_size'))))
                 img_array = img_array.astype(int)
-                # Reshape image array
-                img_array = img_array.reshape(int(getattr(self, 'img_size')), int(getattr(self, 'img_size'))) / 255
-                # Creates predict array
-                predict_array = [(img_array, img_array)]
+                featureArray = self.np.array(img_array).reshape(-1, int(getattr(self, 'img_size')), int(getattr(self, 'img_size'))) / 255
                 print("Import and compile model...")
                 imported_model = self.loadModel()
                 # Saves predictions
-                predictions = imported_model.predict(predict_array)
+                predictions = imported_model.predict(featureArray)
                 print("Prediction: " + str(predictions[0].argmax()) + " Confidence: " + str(predictions[0].max()))
             
                 # Checks the confidence of the prediction
