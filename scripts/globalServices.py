@@ -169,14 +169,14 @@ class GlobalServices:
                                        
             try:
                     self.writeConfig("Train","rootPath",rootFolder+folderName+"/")
-                    self.writeConfig("Train","modelOutputPath",rootFolder+folderName+"/predict/model/energy.model")
+                    self.writeConfig("Train","modelOutputPath",rootFolder+folderName+"/predict/model/energy.h5")
                     self.writeConfig("Classify","unprocessedImagePath",rootFolder+folderName+"/predict/raw/")
                     self.writeConfig("Classify","rootPath",rootFolder+folderName+"/predict/")
                     self.writeConfig("Classify","logPath",rootFolder+folderName+"/log.txt")
                     self.writeConfig("Predict","predictedImagesPath",rootFolder+folderName+"/predict/predicted/")
                     self.writeConfig("Predict","rootPath",rootFolder+folderName+"/predict/")
                     self.writeConfig("Predict","logPath",rootFolder+folderName+"/log.txt")
-                    self.writeConfig("Predict","modelPath",rootFolder+folderName+"/predict/model/energy.model")
+                    self.writeConfig("Predict","modelPath",rootFolder+folderName+"/predict/model/energy.h5")
 
             except Exception:
                     pass

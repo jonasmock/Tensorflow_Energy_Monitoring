@@ -101,7 +101,7 @@ class TrainModel:
     
         ])
     
-        model.compile(optimizer=self.tf.train.AdamOptimizer(),
+        model.compile(optimizer=self.tf.optimizers.Adam(),
                     loss='sparse_categorical_crossentropy',
                     metrics=['accuracy'])
         

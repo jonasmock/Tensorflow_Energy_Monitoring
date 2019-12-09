@@ -98,7 +98,7 @@ class PredictService:
     
         imported_model = self.tf.keras.models.load_model(getattr(self, 'modelPath'), compile=False)
     
-        imported_model.compile(optimizer=self.tf.train.AdamOptimizer(),
+        imported_model.compile(optimizer=self.tf.optimizers.Adam(),
                 loss='sparse_categorical_crossentropy',
                 metrics=['accuracy'])
     
