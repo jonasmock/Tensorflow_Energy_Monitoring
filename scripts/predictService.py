@@ -18,7 +18,7 @@ class PredictService:
 
 
     __slots__ = ['dbUser', 'dbPassword', 'dbHost', 'dbPort', 'dbMeasurement', 'dbHostTag', 'dbName', 'getImageUrl', 'predictedImagesPath', 'rootPath', 'logPath',
-                'modelPath', 'img_size', 'configPath']
+                'modelPath', 'img_size', 'configPath', 'collectData', 'collectDataConfidence']
 
     def __init__(self, **kwargs):
 
@@ -157,15 +157,15 @@ class PredictService:
                 predictions = imported_model.predict(featureArray)
                 print("Prediction: " + str(predictions[0].argmax()) + " Confidence: " + str(predictions[0].max()))
             
-                # Checks the confidence of the prediction
-                if predictions[0].max() > 0.95:
+                # Checks the confidence of the prediction 
+                if predictions[0].max() > float(getattr(self, 'collectDataConfidence')) and str(getattr(self, 'collectData')) == "yes" :
 
                     pathToPredictedCategorie = str(getattr(self, 'rootPath')) + str(predictions[0].argmax()) + "/" + str(img)
 
                     self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
                     currentPrediction.append(predictions[0].argmax())
                 
-                else:
+                elif predictions[0].max() < float(getattr(self, 'collectDataConfidence')) and str(getattr(self, 'collectData')) == "yes":
 
                     # Moves image to "failed" folder, those images have to be classified manually
                     pathToPredictedCategorie = str(getattr(self, 'rootPath')) + "failed/" + str(predictions[0].argmax()) + "/" + str(img)
