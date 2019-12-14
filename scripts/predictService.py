@@ -158,11 +158,14 @@ class PredictService:
                 print("Prediction: " + str(predictions[0].argmax()) + " Confidence: " + str(predictions[0].max()))
             
                 # Checks the confidence of the prediction 
-                if predictions[0].max() > float(getattr(self, 'collectDataConfidence')) and str(getattr(self, 'collectData')) == "yes" :
+                if predictions[0].max() > float(getattr(self, 'collectDataConfidence')):
 
-                    pathToPredictedCategorie = str(getattr(self, 'rootPath')) + str(predictions[0].argmax()) + "/" + str(img)
+                    if(str(getattr(self, 'collectData')) == "yes"):
 
-                    self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
+                        pathToPredictedCategorie = str(getattr(self, 'rootPath')) + str(predictions[0].argmax()) + "/" + str(img)
+                        self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
+                        print("SAVE DATA")
+                    
                     currentPrediction.append(predictions[0].argmax())
                 
                 elif predictions[0].max() < float(getattr(self, 'collectDataConfidence')) and str(getattr(self, 'collectData')) == "yes":
@@ -170,8 +173,7 @@ class PredictService:
                     # Moves image to "failed" folder, those images have to be classified manually
                     pathToPredictedCategorie = str(getattr(self, 'rootPath')) + "failed/" + str(predictions[0].argmax()) + "/" + str(img)
                     self.shutil.move(pathToPredictedImage, pathToPredictedCategorie)
-
-                    pass
+                    print("SAVE DATA")
             
                 with open(getattr(self, 'logPath'), "a") as log:
                     log.write("Prediction: " +  str(predictions[0].argmax()) + " Confidence:  " + str(predictions[0].max()) +"\n")
