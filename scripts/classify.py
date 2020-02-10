@@ -17,14 +17,10 @@ class Classify:
         for key, value in kwargs.items():
             try:
                 setattr(self, key, value)
-                pass
+                
             except Exception as e:
                 print("Can't init object.\n")
                 raise Exception(e)
-
-        print("Successfully initialized\n")
-
-        pass
 
 
     # Crops the raw picture to into a defined number. Predict mode just saves image. Classify mode asks which number is displayed before saving.
@@ -71,9 +67,6 @@ class Classify:
             a1 = a1 + w / numberOfCuts
             a3 = a3 + w / numberOfCuts
 
-            pass
-        
-        pass
 
 
     # Semi automatic image classification from all images in a folder
@@ -102,8 +95,4 @@ class Classify:
                 print(e)
         
             currentProcessingStatus += 1
-    
-            pass
-
-
-    pass
+            

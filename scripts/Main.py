@@ -16,7 +16,6 @@ class Main:
 
                         try:
                                 setattr(self, key, value)
-                                pass
 
                         except Exception as e:
                                 print("Can't init object.\n")
@@ -27,7 +26,6 @@ class Main:
                         self.selectMode(self.initConfig(getattr(self, "pathToConfig")), True)
                         getattr(self, "mode")
 
-                        pass
 
                 except Exception as e:
 
@@ -44,8 +42,6 @@ class Main:
                         print("\nInitialize config from \"", pathToConfig ,"\"\n")
   
                         self.selectMode(self.initConfig(pathToConfig), False)
-
-                pass
 
 
         # Starts selected mode
@@ -96,9 +92,6 @@ class Main:
 
                         self.GlobalServices(**args).prepareFolders(input("Enter root folder name. (Contains default folder structure.)\n"))
 
-                        pass       
-
-                pass
 
         def initConfig(self, pathToConfig):
 
@@ -115,8 +108,6 @@ class Main:
 
                 return cfg.configToDict()
 
-
-        pass
 
 #########################################################
 

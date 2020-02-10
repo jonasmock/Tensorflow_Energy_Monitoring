@@ -28,14 +28,11 @@ class PredictService:
         for key, value in kwargs.items():
             try:
                 setattr(self, key, value)
-                pass
             except Exception as e:
                 print("Can't init object.\n")
                 raise Exception(e)
 
         print("Successfully initialized\n")
-
-        pass
 
 
     #Connection to InfluxDB
@@ -81,17 +78,11 @@ class PredictService:
             #print("Delete database: " + getattr(self, 'dbName'))
             #client.drop_database(getattr(self, 'dbName'))
 
-            pass
-
         except Exception as e:
 
             print("Database error!")
             print(e)
             print("\n")
-
-            pass
-
-        pass
 
 
     # Loads and compiles the model
@@ -121,8 +112,6 @@ class PredictService:
             # Passes image to prepImage() function 
             classify = self.Classify(**dict(self.GlobalServices(**args).configToDict()["Classify"]))
             classify.prepImage(im, 5, "predict")      
-    
-        pass
 
 
     # Predicts digit and moves the image to the specific category folder. In the future the program should automatically train the model with the new data from the predictions
@@ -190,8 +179,6 @@ class PredictService:
             except Exception as e:
 
                 print(e)
-
-                pass
  
             currentProcessingStatus += 1
  
@@ -215,8 +202,3 @@ class PredictService:
 
                 self.GlobalServices(**args).writeConfig("Global", "lastPrediction", kwh)
                 self.dbconnect(kwh)
-
-        pass
-
-
-    pass

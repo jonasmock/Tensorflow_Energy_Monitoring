@@ -18,14 +18,11 @@ class TrainModel:
         for key, value in kwargs.items():
             try:
                 setattr(self, key, value)
-                pass
             except Exception as e:
                 print("Can't init object.\n")
                 raise Exception(e)
 
         print("Successfully initialized\n")
-
-        pass
 
 
     # Extracts pixels from training data images and appends them to the array. Afterwards features and labels are stored in two arrays and returned.
@@ -56,19 +53,12 @@ class TrainModel:
                         print("Can't process image.",categoriePath,img,"\n")
                         print(e)
 
-                        pass
-                    
-                    pass
-
             except Exception as e:
 
                 print("Categorie folder not found.")
                 print(e)
                 print("\n")
 
-                pass
-
-            pass
 
         self.random.shuffle(self.training_data)
 
@@ -111,10 +101,3 @@ class TrainModel:
         model.fit(features, labels, epochs = int(getattr(self, 'epochs')))
         model.save(getattr(self, 'modelOutputPath'))
     
-        pass
-
-
-   
-    
-
-    pass

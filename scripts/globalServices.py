@@ -20,8 +20,6 @@ class GlobalServices:
 
         print("Successfully initialized\n")
 
-        pass
-
 
     # Reads config and returns value of a key in a specific section
     def readConfig(self, configSection, configKey):
@@ -32,15 +30,11 @@ class GlobalServices:
             config.optionxform = str 
             config.read(getattr(self,"pathToConfig"))
 
-            pass
-
         except Exception as e:
 
             print("Can't parse config.")
             print(e)
             print("\n")
-
-            pass
 
         return config.get(configSection, configKey)
 
@@ -54,15 +48,11 @@ class GlobalServices:
             config.optionxform = str 
             config.read(getattr(self,"pathToConfig"))
 
-            pass
-
         except Exception as e:
 
             print("Can't parse config.")
             print(e)
             print("\n")
-
-            pass
 
         return config._sections
 
@@ -80,17 +70,12 @@ class GlobalServices:
             config.write(cfgfile)
             cfgfile.close()
 
-            pass
 
         except Exception as e:
 
             print("Can't write to config.")
             print(e)
             print("\n")
-
-            pass
-
-        pass
 
 
     # Create default folder structure
@@ -181,5 +166,4 @@ class GlobalServices:
             except Exception:
                     pass
 
-    pass
 
