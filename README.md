@@ -1,5 +1,7 @@
 # Energy monitoring with Tensorflow
 
+## Warning: Currently it's not Pylint conform and there are no tests available.
+
 #### Motivation:
 
 I am a computer science student and currently live in my own apartment. My server, several sensors / microcontrollers / smart home devices and especially my electric heating in an old building, consumes quite a lot of electricity.
