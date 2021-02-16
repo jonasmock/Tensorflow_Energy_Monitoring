@@ -126,9 +126,3 @@ The trained model tries to recognize the number in each image. If the probabilit
 If the probability is more than 95% and the predicted value is higher or equal than the last electricity meter value, it's saved to an InfluxDB database. The predicted values and some additional information like the the maximum electricity meter value per day according to the contract are combined in a Grafana dashboard. The red points display the maximum electricity meter value per day according to the contract and the green graph shows the current value.
 
 ![Grafana](/readme_images/grafana.png "Grafana")
-
-## Coming soon
-
-- Train model by itself with new detected images
-- Check electricity meter via Telegram bot
-- Grafana alerts
